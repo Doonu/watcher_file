@@ -36,3 +36,47 @@ node file_watcher_interval.js "Директория"
 
 - **Задержка перед выполнением коммитов и пуша:** Задержка на выполнение коммитов и пуша составляет  5 минут по умолчанию. Этот параметр можно изменить в коде, изменив значение переменной `delayPush`.
 - **Интервал проверки удалённых изменений:** Программа проверяет удалённый репозиторий каждые 30 минут (по умолчанию). Этот интервал можно изменить, изменив значение переменной `delayPull` или передав другой интервал в функцию `startRemoteCheckInterval`.
+
+
+## **4. Docker**
+
+* Создайте Personal Access Token на GitHub
+* Подготовка перемнных окружения
+  * WORK_DIRECTORY: Путь внутри контейнера к директории, которую нужно отслеживать. Обычно /app/watchdir.
+  * GIT_TOKEN: Персональный токен доступа (PAT) от GitHub.
+  * GIT_REPO: URL вашего репозитория на GitHub без протокола и токена, например: github.com/YourUsername/YourRepo.git.
+
+### **Сборка Docker-образа**
+
+```bash copy 
+docker build -t file-watcher .
+```
+
+### **Запуск Docker-контейнера**
+
+```bash copy 
+docker run -d --name file-watcher \
+  -e WORK_DIRECTORY=/app/watchdir \
+  -e GIT_USER_NAME="Your Name" \
+  -e GIT_USER_EMAIL="your_email@example.com" \
+  -e GIT_TOKEN="ваш_персональный_токен" \
+  -e GIT_REPO="github.com/YourUsername/YourRepo.git" \
+  -v "ПУТЬ_К_ВАШЕЙ_ДИРЕКТОРИИ":/app/watchdir \
+  file-watcher
+```
+
+### **Проверка работы**
+
+```bash copy
+  docker logs -f file-watcher
+```
+
+### **Остановка и удаление контейнера**
+
+```bash copy
+  docker stop file-watcher   
+```
+
+```bash copy
+  docker rm file-watcher 
+```

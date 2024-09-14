@@ -2,7 +2,11 @@ const chokidar = require('chokidar');
 const simpleGit = require('simple-git');
 const path = require('path');
 
-const WORK_DIRECTORY = process.argv[2];
+const WORK_DIRECTORY = process.env.WORK_DIRECTORY;
+const GIT_TOKEN = process.env.GIT_TOKEN; // Добавляем переменную для токена
+const GIT_REPO = process.env.GIT_REPO; // URL репозитория без токена
+
+console.log(`Отслеживаемая директория: ${WORK_DIRECTORY}`);
 
 if (!WORK_DIRECTORY) {
     console.error('Пожалуйста, укажите путь к файловой структуре.');
@@ -11,7 +15,7 @@ if (!WORK_DIRECTORY) {
 
 const git = simpleGit(WORK_DIRECTORY);
 
-const delayPush = 300000;
+const delayPush = 300000;  // Увеличим задержку до 5 секунд
 const delayPull = 1800000;
 let timer = null;
 let changesDetected = false;
@@ -29,6 +33,9 @@ function getCurrentDateTime() {
 async function execGitCommands(commitMessage) {
     try {
         console.log(`Выполняем Git-команды в ${new Date().toLocaleString()}...`);
+
+        const remoteWithToken = `https://${GIT_TOKEN}@${GIT_REPO}`;
+        await git.remote(['set-url', 'origin', remoteWithToken]);
 
         await git.add('.');
 
@@ -74,6 +81,9 @@ function startWatcher() {
         ignored: /(^|[\/\\])\..|.*\.git.*/,
         persistent: true,
         ignoreInitial: true,
+        usePolling: true,         // Включаем режим опроса
+        interval: 1000,           // Интервал опроса в миллисекундах (1 секунда)
+        binaryInterval: 3000,     // Интервал опроса для бинарных файлов (3 секунды)
     });
 
     watcher.on('all', (event, path) => {
