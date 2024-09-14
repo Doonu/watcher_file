@@ -15,11 +15,11 @@ if (!WORK_DIRECTORY) {
 
 const git = simpleGit(WORK_DIRECTORY);
 
-const delayPush = 300000;  // Увеличим задержку до 5 секунд
+const delayPush = 300000;
 const delayPull = 1800000;
 let timer = null;
 let changesDetected = false;
-let watcher = null;  // Переменная для наблюдател
+let watcher = null;
 
 // Получаем текущее время для сообщения коммита
 function getCurrentDateTime() {
@@ -81,9 +81,9 @@ function startWatcher() {
         ignored: /(^|[\/\\])\..|.*\.git.*/,
         persistent: true,
         ignoreInitial: true,
-        usePolling: true,         // Включаем режим опроса
-        interval: 1000,           // Интервал опроса в миллисекундах (1 секунда)
-        binaryInterval: 3000,     // Интервал опроса для бинарных файлов (3 секунды)
+        usePolling: true,
+        interval: 1000,
+        binaryInterval: 3000,
     });
 
     watcher.on('all', (event, path) => {
