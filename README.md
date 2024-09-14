@@ -66,8 +66,6 @@ docker build -t file-watcher .
 ```bash copy 
 docker run -d --name file-watcher \
   -e WORK_DIRECTORY=/app/watchdir \
-  -e GIT_USER_NAME="Your Name" \
-  -e GIT_USER_EMAIL="your_email@example.com" \
   -e GIT_TOKEN="ваш_персональный_токен" \
   -e GIT_REPO="github.com/YourUsername/YourRepo.git" \
   -v "ПУТЬ_К_ВАШЕЙ_ДИРЕКТОРИИ":/app/watchdir \
