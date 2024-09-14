@@ -4,12 +4,12 @@
   "description": "",
   "main": "file_watcher_interval.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node file_watcher_interval.js 'D:/Portfolio/development'"
+    "start": "node file_watcher_interval.js D:/Portfolio/development"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "chokidar": "^4.0.0"
+    "chokidar": "^4.0.0",
+    "simple-git": "^3.26.0"
   }
 }
